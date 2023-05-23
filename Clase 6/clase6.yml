@@ -1,0 +1,8 @@
+Resources:
+  InstanciaProduccionG5b:
+    type: AWS::EC2::Instance
+    Properties:
+      AvailabilityZone: us-east-2
+      ImageId: ami-024e6efaf93d85776
+      InstanceType:
+      SubnetId:
