@@ -1,0 +1,16 @@
+- host: localhost
+  tasks:
+  - name: Creamosnuestro servidor
+    ec2:
+      region: sa-east-1
+      instance_type: t2.micro
+      image: ami-0af6e9042ea5a4e3e
+      keypair: clase7c4a
+      wait: yes
+      wait_timeout: 500
+      volumes:
+        - device_name: /dev/xvda
+          volume_type: gp2
+          volume_size: 8
+      vpc_subnet_id: subnet-0c17713f7567f819d
+      assign_public_ip: yes
