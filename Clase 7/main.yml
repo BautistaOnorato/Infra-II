@@ -1,4 +1,4 @@
-- host: localhost
+- hosts: localhost
   tasks:
   - name: Creamosnuestro servidor
     ec2:
