@@ -1,5 +1,5 @@
 provider "aws" {
-  shared_credentials_file = "~/.aws/credentilas" 
+  shared_credentials_files = "~/.aws/credentilas" 
   region = "sa-east-1"
 }
 
@@ -35,7 +35,7 @@ module "ssh_security_group" {
 
   name = "ssh-server-c8c4b"
     description = "Grupo de seguridad"
-    vpc_id = module.vpc_id
+    vpc_id = module.vpc.vpc_id
 
     ingress_cidr_blocks = ["10.10.0.0/16"]
 }
