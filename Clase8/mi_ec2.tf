@@ -1,5 +1,5 @@
 provider "aws" {
-  shared_credentials_files = "~/.aws/credentials" 
+  shared_credentials_files = ["~/.aws/credentials" ]
   region = "sa-east-1"
 }
 
