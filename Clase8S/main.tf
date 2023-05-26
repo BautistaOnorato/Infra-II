@@ -74,12 +74,12 @@ resource "aws_instance" "ec2Cl9G3Priv" {
   ami = data.aws_ami.ami_ec2.id
   instance_type = "t2.micro"
   vpc_security_group_ids = [aws_security_group.allow_ssh_priv.id]
-  subnet_id = module.vpc.private_subnets
+  subnet_id = "10.0.1.0/24"
 }
 
 resource "aws_instance" "ec2Cl9G3Pub" {
   ami = data.aws_ami.ami_ec2.id
   instance_type = "t2.micro"
   vpc_security_group_ids = [aws_security_group.allow_ssh_pub.id]
-  subnet_id = module.vpc.public_subnets
+  subnet_id = "10.0.0.101/24"
 }
