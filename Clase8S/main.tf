@@ -1,6 +1,16 @@
 provider "aws" {
   shared_credentials_files = ["~/.aws/credentials" ]
-  region = "sa-east-1"
+  region = var.zona
+}
+
+data "aws_ami" "ami_ec2" {
+  most_recent = true
+
+  owners = ["self"]
+  filter {
+    name   = "name"
+    values = ["ubuntu/images/hvm-ssd/ubuntu-focal-22.04-amd64-server-*"]
+  }
 }
 
 module "vpc" {
@@ -58,4 +68,20 @@ resource "aws_security_group" "allow_ssh_priv" {
     protocol    = "-1"
     cidr_blocks = ["0.0.0.0/0"]
   }
+}
+
+resource "aws_instance" "ec2Cl9G3Priv" {
+  instance_count = 1
+  ami = data.aws_ami.ami_ec2.id
+  instance_type = "t2.micro"
+  vpc_security_group_ids = [aws_security_group.allow_ssh_priv.id]
+  subnet_ids = module.vpc.private_subnets
+}
+
+resource "aws_instance" "ec2Cl9G3Pub" {
+  instance_count = 1
+  ami = data.aws_ami.ami_ec2.id
+  instance_type = "t2.micro"
+  vpc_security_group_ids = [aws_security_group.allow_ssh_pub.id]
+  subnet_ids = module.vpc.public_subnets
 }
