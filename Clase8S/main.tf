@@ -70,7 +70,10 @@ resource "aws_security_group" "allow_ssh_priv" {
   }
 }
 
-resource "aws_instance" "ec2Cl9G3Priv" {
+module "ec2" {
+  source = "terraform-aws-modules/ec2-instance/aws"
+  version = "~> 2.0"
+  name = "ec2Cl9G3Priv"
   instance_count = 1
   ami = data.aws_ami.ami_ec2.id
   instance_type = "t2.micro"
@@ -78,7 +81,10 @@ resource "aws_instance" "ec2Cl9G3Priv" {
   subnet_ids = module.vpc.private_subnets
 }
 
-resource "aws_instance" "ec2Cl9G3Pub" {
+module "ec2" {
+  source = "terraform-aws-modules/ec2-instance/aws"
+  version = "~> 2.0"
+  name = "ec2Cl9G3Pub"
   instance_count = 1
   ami = data.aws_ami.ami_ec2.id
   instance_type = "t2.micro"
