@@ -17,22 +17,17 @@ provider "aws" {
 data "aws_ami" "ami_ec2" {
   most_recent = true
 
-  owners = ["099720109477"] 
-
   filter {
-    name   = "name"
-    values = ["ubuntu/images/hvm-ssd/ubuntu-focal-22.04-amd64-server-*"]
+      name   = "name"
+      values = ["ubuntu/images/hvm-ssd/ubuntu-focal-20.04-amd64-server-*"]
   }
 
   filter {
-    name   = "root-device-type"
-    values = ["ebs"]
+      name = "virtualization-type"
+      values = ["hvm"]
   }
 
-  filter {
-    name   = "virtualization-type"
-    values = ["hvm"]
-  }
+  owners = ["099720109477"]
 }
 
 module "vpc" {
