@@ -17,10 +17,17 @@ provider "aws" {
 data "aws_ami" "ami_ec2" {
   most_recent = true
 
-  owners = ["amazon"]
+  owners = ["099720109477"] 
+  virtualization_type = "hvm"
+
   filter {
     name   = "name"
-    values = ["ubuntu/images/ubuntu-*-*-amd64-server-*"]
+    values = ["ubuntu/images/hvm-ssd/ubuntu-focal-22.04-amd64-server-*"]
+  }
+
+  filter {
+    name   = "root-device-type"
+    values = ["ebs"]
   }
 }
 
