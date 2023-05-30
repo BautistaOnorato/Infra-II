@@ -24,8 +24,11 @@ data "aws_ami" "ami_ec2" {
   }
 }
 
-resource "aws_vpc" "Main" {
-  cidr_block = "10.0.0.0/16"
+module "vpc" {
+  source = "terraform-aws-modules/vpc/aws"
+
+  name = var.resource_name
+  cidr = "10.0.0.0/16"
 
   azs = ["${var.zona}a", "${var.zona}b"]
   private_subnets = ["10.0.1.0/24", "10.0.2.0/24"]
@@ -39,7 +42,7 @@ resource "aws_vpc" "Main" {
 resource "aws_security_group" "allow_ssh_pub" {
   name = "ssh-pub-${var.resource_name}"
   description = "Grupo de seguridad"
-  vpc_id = aws_vpc.Main.id
+  vpc_id = module.vpc.vpc_id
 
   ingress {
     description = "SSH from the internet"
@@ -60,7 +63,7 @@ resource "aws_security_group" "allow_ssh_pub" {
 resource "aws_security_group" "allow_ssh_priv" {
   name = "ssh-priv-${var.resource_name}"
   description = "Grupo de seguridad"
-  vpc_id = aws_vpc.Main.id
+  vpc_id = module.vpc.vpc_id
 
   ingress {
     description = "SSH from the internet"
@@ -82,12 +85,12 @@ resource "aws_instance" "ec2Cl9G3Priv" {
   ami = data.aws_ami.ami_ec2.id
   instance_type = "t2.micro"
   vpc_security_group_ids = [aws_security_group.allow_ssh_priv.id]
-  subnet_id = aws_vpc.Main.private_subnets[0]
+  subnet_id = module.vpc.private_subnets[0]
 }
 
 resource "aws_instance" "ec2Cl9G3Pub" {
   ami = data.aws_ami.ami_ec2.id
   instance_type = "t2.micro"
   vpc_security_group_ids = [aws_security_group.allow_ssh_pub.id]
-  subnet_id = aws_vpc.Main.public_subnets[0]
+  subnet_id = module.vpc.public_subnets[0]
 }
