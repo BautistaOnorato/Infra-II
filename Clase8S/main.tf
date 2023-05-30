@@ -10,7 +10,7 @@ terraform {
 
 
 provider "aws" {
-  shared_credentials_files = "~/.aws/credentials"
+  shared_credentials_files = ["~/.aws/credentials"]
   region = var.zona
 }
 
