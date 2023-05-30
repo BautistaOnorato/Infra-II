@@ -18,7 +18,6 @@ data "aws_ami" "ami_ec2" {
   most_recent = true
 
   owners = ["099720109477"] 
-  virtualization_type = "hvm"
 
   filter {
     name   = "name"
@@ -28,6 +27,11 @@ data "aws_ami" "ami_ec2" {
   filter {
     name   = "root-device-type"
     values = ["ebs"]
+  }
+
+  filter {
+    name   = "virtualization-type"
+    values = ["hvm"]
   }
 }
 
