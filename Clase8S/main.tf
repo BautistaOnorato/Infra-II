@@ -25,11 +25,9 @@ data "aws_ami" "ami_ec2" {
 }
 
 resource "aws_vpc" "Main" {
-  source = "terraform-aws-modules/vpc/aws"
+  cidr_block = "10.0.0.0/16"
 
-  cidr = "10.0.0.0/16"
-
-  azs = ["sa-east-1a", "sa-east-1b"]
+  azs = ["${var.zona}a", "${var.zona}b"]
   private_subnets = ["10.0.1.0/24", "10.0.2.0/24"]
   public_subnets = ["10.0.101.0/24", "10.0.102.0/24"]
 
@@ -84,12 +82,12 @@ resource "aws_instance" "ec2Cl9G3Priv" {
   ami = data.aws_ami.ami_ec2.id
   instance_type = "t2.micro"
   vpc_security_group_ids = [aws_security_group.allow_ssh_priv.id]
-  subnet_ids = aws_vpc.Main.private_subnets
+  subnet_id = aws_vpc.Main.private_subnets[0]
 }
 
 resource "aws_instance" "ec2Cl9G3Pub" {
   ami = data.aws_ami.ami_ec2.id
   instance_type = "t2.micro"
   vpc_security_group_ids = [aws_security_group.allow_ssh_pub.id]
-  subnet_ids = aws_vpc.Main.public_subnets
+  subnet_id = aws_vpc.Main.public_subnets[0]
 }
